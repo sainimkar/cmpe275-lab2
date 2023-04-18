@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
+
     public void addEmployee(Employee employee){
         employeeRepository.save(employee);
     }
