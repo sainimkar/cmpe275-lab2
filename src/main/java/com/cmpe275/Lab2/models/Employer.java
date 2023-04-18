@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 @Data
 @Embeddable
 @AllArgsConstructor
@@ -52,7 +54,23 @@ public class Employer {
         return employee;
     }
 
-
+    public void update(Employer fromEmployer) {
+        if (Objects.nonNull(fromEmployer.getName())) {
+            this.setName(fromEmployer.getName());
+        }
+        if (Objects.nonNull(fromEmployer.getDescription())) {
+            this.setDescription(fromEmployer.getDescription());
+        }
+        if (Objects.nonNull(fromEmployer.getAddress())) {
+            Address newAddress = Address.builder()
+                    .street(fromEmployer.getAddress().getStreet())
+                    .city(fromEmployer.getAddress().getCity())
+                    .state(fromEmployer.getAddress().getState())
+                    .zip(fromEmployer.getAddress().getZip())
+                    .build();
+            this.setAddress(newAddress);
+        }
+    }
 // constructors, getters/setters
 }
 

@@ -5,12 +5,14 @@ import com.cmpe275.Lab2.model.response.EmployerDto;
 import com.cmpe275.Lab2.models.Employer;
 import com.cmpe275.Lab2.repository.EmployerRepository;
 import com.cmpe275.Lab2.service.EmployerService;
+import com.cmpe275.Lab2.utility.ValidatorUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.Arrays;
+import java.util.Map;
 
 @RestController
 public class EmployerController {
@@ -38,4 +40,25 @@ public class EmployerController {
         return employerMapper.map(employerService.findEmployer(id));
     }
 
+    @PutMapping(value = "employer/{id}")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public EmployerDto updateEmployer(@PathVariable @NotNull Long id, @RequestParam Map<String, String> params) {
+        ValidatorUtil.validateParams(params, Arrays.asList("name"));
+        final Employer updatedEmployer = employerService.updateEmployer(
+                id,
+                employerMapper.map(params)
+        );
+
+        return employerMapper.map(updatedEmployer);
+
+    }
+
+    @DeleteMapping(value = "employer/{id}")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public EmployerDto deleteEmployer(@PathVariable @NotNull long id) {
+        final Employer deletedEmployer = employerService.deleteEmployer(id);
+        return employerMapper.map(deletedEmployer);
+    }
 }
