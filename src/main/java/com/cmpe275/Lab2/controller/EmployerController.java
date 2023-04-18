@@ -28,9 +28,21 @@ public class EmployerController {
         this.employerMapper = employerMapper;
     }
 
-    @PostMapping(value = "/addEmployer")
-    public void addEmployer(@RequestBody Employer employer){
-        employerService.addEmployer(employer);
+//    @PostMapping(value = "/employer/{id}")
+//    public void addEmployer(@RequestBody Employer employer){
+//        employerService.addEmployer(employer);
+//    }
+
+    @PostMapping(value = "/employer")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
+    public EmployerDto addEmployer(@RequestParam Map<String, String> params) {
+
+        ValidatorUtil.validateParams(params, Arrays.asList("name"));
+
+        final Employer employer = employerService.addEmployer(employerMapper.map(params));
+
+        return employerMapper.map(employer);
     }
 
     @GetMapping(value = "employer/{id}")

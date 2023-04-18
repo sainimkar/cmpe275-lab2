@@ -22,12 +22,17 @@ public class EmployerService {
 
     private EmployerService employerService;
     @Transactional
-    public void addEmployer(Employer employer){
-        employerRepository.save(employer);
+    public Employer addEmployer(Employer employer){
+        return employerRepository.save(employer);
+    }
+
+    @Transactional
+    public Employer createEmployer(final Employer employer) {
+        return employerRepository.save(employer);
     }
 
     public Employer findEmployer(final Long id) {
-        return employerRepository.findById(id).orElseThrow(() -> new RuntimeException("TODO"));
+        return employerRepository.findById(id).orElseThrow(() -> new RuntimeException(""));
     }
 
     @Transactional
