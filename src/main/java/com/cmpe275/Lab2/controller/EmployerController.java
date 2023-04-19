@@ -1,5 +1,6 @@
 package com.cmpe275.Lab2.controller;
 
+import com.cmpe275.Lab2.exception.ConstraintViolationException;
 import com.cmpe275.Lab2.mapper.EmployerMapper;
 import com.cmpe275.Lab2.model.response.EmployerDto;
 import com.cmpe275.Lab2.models.Employer;
@@ -10,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -28,22 +30,22 @@ public class EmployerController {
         this.employerMapper = employerMapper;
     }
 
-//    @PostMapping(value = "/employer/{id}")
-//    public void addEmployer(@RequestBody Employer employer){
-//        employerService.addEmployer(employer);
-//    }
 
+    //create
     @PostMapping(value = "/employer")
     @ResponseBody
-    @ResponseStatus(HttpStatus.CREATED)
     public EmployerDto addEmployer(@RequestParam Map<String, String> params) {
-
-        ValidatorUtil.validateParams(params, Arrays.asList("name"));
+        try {
+            ValidatorUtil.validateParams(params, Arrays.asList("name"));
+        } catch (ConstraintViolationException ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage());
+        }
 
         final Employer employer = employerService.addEmployer(employerMapper.map(params));
 
         return employerMapper.map(employer);
     }
+
 
     @GetMapping(value = "employer/{id}")
     @ResponseBody
