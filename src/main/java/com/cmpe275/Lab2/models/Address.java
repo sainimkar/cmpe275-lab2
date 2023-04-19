@@ -1,5 +1,6 @@
 package com.cmpe275.Lab2.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,41 +14,15 @@ import lombok.NoArgsConstructor;
 @Data
 
 public class Address {
+
+    @Column(name = "street")
     private String street;
+
+    @Column(name = "city")
     private String city;
+    @Column(name = "state")
     private String state;
+
+    @Column(name = "zip")
     private String zip;
-
-//    public void setStreet(String street){
-//        this.street = street;
-//    }
-//
-//    public String getStreet(String street){
-//        return this.street;
-//    }
-//
-//    public void setCity(String city){
-//        this.city = city;
-//    }
-//
-//    public String getCity(String city){
-//        return this.city;
-//    }
-//
-//    public void setState(String state){
-//        this.state = state;
-//    }
-//
-//    public String getState(String state){
-//        return this.state;
-//    }
-//
-//    public void setZip(String zip){
-//        this.zip = zip;
-//    }
-//
-//    public String getZip(String zip){
-//        return this.zip;
-//    }
-
 }

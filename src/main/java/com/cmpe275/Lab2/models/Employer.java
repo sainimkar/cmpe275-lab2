@@ -34,26 +34,6 @@ public class Employer {
     @OneToOne(mappedBy = "employer")
     private Employee employee;
 
-    public long getId() {
-        return id;
-    }
-
-    public String getName(String name) {
-        return this.name;
-    }
-
-    public String getDescription(String description) {
-        return this.description;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
     public void update(Employer fromEmployer) {
         if (Objects.nonNull(fromEmployer.getName())) {
             this.setName(fromEmployer.getName());

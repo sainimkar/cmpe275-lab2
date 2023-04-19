@@ -1,7 +1,11 @@
 package com.cmpe275.Lab2.repository;
+import com.cmpe275.Lab2.models.CompositeKey;
 import com.cmpe275.Lab2.models.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+import java.util.Optional;
 
+public interface EmployeeRepository extends JpaRepository<Employee, CompositeKey> {
+
+     Optional<Employee> findById(CompositeKey id);
 }

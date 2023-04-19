@@ -19,6 +19,9 @@ public class EmployeeDto {
     @JsonProperty("id")
     private long id;
 
+    @JsonProperty("employerId")
+    private String employerId;
+
     @JsonProperty("name")
     private String name;
 
