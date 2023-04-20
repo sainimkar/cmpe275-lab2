@@ -58,18 +58,18 @@ public class EmployeeController {
     }
 
 
-    @PutMapping(value = "/{id}/{employerId}")
+    @PutMapping(value = "/employer/{employerId}/employee/{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public EmployeeDto updateEmployee(@PathVariable @NotNull Long id, @RequestParam Map<String, String> params) {
-        ValidatorUtil.validateParams(params, Arrays.asList("email", "employerId"));
+    public EmployeeDto updateEmployee(@PathVariable @NotNull String employerId, @PathVariable @NotNull long id, @RequestParam Map<String, String> params) {
+        ValidatorUtil.validateParams(params, Arrays.asList("email"));
         ValidatorUtil.validateRestrictedParam(params, Arrays.asList("collaborators", "reports"));
 
         final Employee updatedEmployee = employeeService.updateEmployee(
                 id,
                 employeeMapper.map(params),
                 params.get("managerId"),
-                params.get("employerId")
+                employerId
         );
 
         return employeeMapper.map(updatedEmployee);
@@ -83,5 +83,4 @@ public class EmployeeController {
         final Employee deletedEmployee = employeeService.deleteEmployee(id, employerId);
         return employeeMapper.map(deletedEmployee);
     }
-
 }
