@@ -6,14 +6,12 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-
 public class CompositeKey implements Serializable {
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_seq")
-    @SequenceGenerator(name = "my_seq", sequenceName = "MY_SEQUENCE", allocationSize = 1)
+
+    @Column(name = "id")
     protected long id;
 
-    @Column(name = "employerId")
     protected String employerId;
 
     // default constructor

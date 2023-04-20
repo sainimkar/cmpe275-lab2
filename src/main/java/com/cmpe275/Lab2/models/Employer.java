@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Objects;
 
 @Data
@@ -31,8 +32,8 @@ public class Employer {
     @Embedded
     private Address address;
 
-    @OneToOne(mappedBy = "employer")
-    private Employee employee;
+    @OneToMany(mappedBy = "employer")
+    private List<Employee> employeeList;
 
     public void update(Employer fromEmployer) {
         if (Objects.nonNull(fromEmployer.getName())) {
