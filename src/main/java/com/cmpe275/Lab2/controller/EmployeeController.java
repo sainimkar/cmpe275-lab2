@@ -31,24 +31,25 @@ public class EmployeeController {
 //        return "Hello World";
 //    }
 
-    @RequestMapping(value = "/employee", method = RequestMethod.POST)
-    public EmployeeDto createEmployee(@RequestParam Map<String, String> params) {
-        ValidatorUtil.validateParams(params, Arrays.asList("name", "email", "employerId"));
+    @RequestMapping(value = "/employer/{employerId}/employee", method = RequestMethod.POST)
+    public EmployeeDto createEmployee(@PathVariable @NotNull String employerId, @RequestParam Map<String, String> params) {
+        ValidatorUtil.validateParams(params, Arrays.asList("name", "email"));
         ValidatorUtil.validateRestrictedParam(params, Arrays.asList("collaborators", "reports"));
 
+        params.put("employerId", employerId);
         final Employee createdEmployee = employeeService.addEmployee(
                 employeeMapper.map(params),
                 params.get("managerId"),
-                params.get("employerId")
+                employerId
         );
 
         return employeeMapper.map(createdEmployee);
     }
 
-    @GetMapping(value = "/{id}/{employerId}")
+    @GetMapping(value = "employer/{employerId}/employee/{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> getEmployee(@PathVariable @NotNull long id, @PathVariable @NotNull String employerId) {
+    public ResponseEntity<?> getEmployee(@PathVariable @NotNull String employerId , @PathVariable @NotNull long id) {
         Optional<Employee> emp = employeeService.findEmployee(id, employerId);
         if(!emp.isEmpty()) {
             return new ResponseEntity<EmployeeDto>(employeeMapper.map(emp.get()), HttpStatus.OK);
